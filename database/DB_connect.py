@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 
+# mettere connection pooling
 
 def get_connection() -> mysql.connector.connection:
     try:

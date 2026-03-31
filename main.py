@@ -6,11 +6,13 @@ from UI.controller import Controller
 
 
 def main(page: ft.Page):
-    my_model = Model()
-    my_view = View(page)
-    my_controller = Controller(my_view, my_model)
-    my_view.set_controller(my_controller)
-    my_view.load_interface()
+    lab5_model = Model()
+    lab5_view = View(page)
+    lab5_controller = Controller(lab5_view, lab5_model)
+    lab5_view.controller = lab5_controller # lo faccio utilizzando il setter invece che set_connection()
+
+    # chiamata a load_interface()
+    lab5_view.load_interface()
 
 
 ft.app(target=main)
