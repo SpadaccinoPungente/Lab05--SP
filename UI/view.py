@@ -41,13 +41,14 @@ class View(ft.UserControl):
         self.dd_corso = ft.Dropdown(
             label="Corso",
             hint_text="Selezionare un corso",
-            width=500,
+            width=510,
             options=[] # opzioni caricate dal Controller!
         )
 
         self.btn_cerca_iscritti = ft.ElevatedButton(
             text="Cerca iscritti",
-            on_click=self._controller.handle_cerca_iscritti
+            on_click=self._controller.handle_cerca_iscritti,
+            width = 250
         )
 
         # creazione row1
@@ -57,9 +58,9 @@ class View(ft.UserControl):
         )
 
         # RIGA 2: campi di testo per Matricola, Nome, Cognome
-        self.txt_matricola = ft.TextField(label="matricola", width=150)
-        self.txt_nome = ft.TextField(label="nome", width=250, read_only=True) # read_only
-        self.txt_cognome = ft.TextField(label="cognome", width=250, read_only=True) # read_only
+        self.txt_matricola = ft.TextField(label="Matricola", width=250)
+        self.txt_nome = ft.TextField(label="Nome", width=250, read_only=True) # read_only
+        self.txt_cognome = ft.TextField(label="Cognome", width=250, read_only=True) # read_only
 
         # creazione row2
         row2 = ft.Row(
@@ -70,15 +71,18 @@ class View(ft.UserControl):
         # TERZA RIGA: bottoni per la gestione dello studente
         self.btn_cerca_studente = ft.ElevatedButton(
             text="Cerca studente",
-            on_click=self._controller.handle_cerca_studente # da definire nel Controller
+            on_click=self._controller.handle_cerca_studente, # da definire nel Controller
+            width=250
         )
         self.btn_cerca_corsi = ft.ElevatedButton(
             text="Cerca corsi",
-            on_click=self._controller.handle_cerca_corsi # da definire nel Controller
+            on_click=self._controller.handle_cerca_corsi, # da definire nel Controller
+            width=250
         )
         self.btn_iscrivi = ft.ElevatedButton(
             text="Iscrivi",
-            on_click=self._controller.handle_iscrivi # da definire nel Controller
+            on_click=self._controller.handle_iscrivi, # da definire nel Controller
+            width=250
         )
 
         # creazione row3
@@ -88,13 +92,20 @@ class View(ft.UserControl):
         )
 
         # listview
-        self.lv_out = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
+        # self.lv_out = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
+        # sostituisco column alla listview per allineamento
+        self.lv_out = ft.Column(
+            expand=True,
+            spacing=10,
+            scroll=ft.ScrollMode.AUTO,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER
+        )
 
         # inserisco le righe in _page.controls
         self._page.controls.extend([row1, row2, row3, self.lv_out])
 
-        # popolo il dropdown (avrebbe più senso chiamare il controller nel main)
-        self._controller.startup()
+        # popolo il dropdown (avrebbe più senso chiamarlo dal main)
+        self._controller.fill_dd_corsi()
 
         # da non dimenticare mai
         self._page.update()

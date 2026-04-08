@@ -5,7 +5,7 @@ class Controller:
         self._view = view
         self._model = model
 
-    def startup(self):
+    def fill_dd_corsi(self):
         """Metodo da chiamare all'avvio dell'app per popolare i dati iniziali."""
 
         # Recupero gli oggetti Corso da model
@@ -140,7 +140,7 @@ class Controller:
         # Controllo se lo studente esiste nel DB (e intanto aggiorno Nome e Cognome)
         studente_esiste = self._update_studente_in_view(matricola)
         if not studente_esiste:
-            # Se lo studente non esiste, _update_studente_in_view ha già mostrato l'alert.
+            # Se lo studente non esiste, _update_studente_in_view ha già mostrato un alert.
             self._view.update_page()
             return
 
