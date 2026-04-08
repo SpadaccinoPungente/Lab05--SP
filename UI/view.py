@@ -44,6 +44,8 @@ class View(ft.UserControl):
             width=510,
             options=[] # opzioni caricate dal Controller!
         )
+        # popolo il dropdown (avrebbe più senso chiamarlo dal main forse)
+        self._controller.fill_dd_corsi()
 
         self.btn_cerca_iscritti = ft.ElevatedButton(
             text="Cerca iscritti",
@@ -68,7 +70,7 @@ class View(ft.UserControl):
             alignment=ft.MainAxisAlignment.CENTER
         )
 
-        # TERZA RIGA: bottoni per la gestione dello studente
+        # RIGA 3: bottoni per la gestione dello studente
         self.btn_cerca_studente = ft.ElevatedButton(
             text="Cerca studente",
             on_click=self._controller.handle_cerca_studente, # da definire nel Controller
@@ -96,16 +98,12 @@ class View(ft.UserControl):
         # sostituisco column alla listview per allineamento
         self.lv_out = ft.Column(
             expand=True,
-            spacing=10,
-            scroll=ft.ScrollMode.AUTO,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            spacing=15,
+            scroll=ft.ScrollMode.AUTO
         )
 
         # inserisco le righe in _page.controls
         self._page.controls.extend([row1, row2, row3, self.lv_out])
-
-        # popolo il dropdown (avrebbe più senso chiamarlo dal main)
-        self._controller.fill_dd_corsi()
 
         # da non dimenticare mai
         self._page.update()
