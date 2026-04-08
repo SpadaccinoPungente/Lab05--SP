@@ -18,3 +18,6 @@ class Model:
     def get_corsi_for_studente(self, matricola):
         return CorsoDAO.get_corsi_for_studente(matricola)
 
+    def iscrivi_studente(self, matricola: str, codins: str) -> bool:
+        return StudenteDAO.iscrivi_studente(matricola, codins)
+

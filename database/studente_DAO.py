@@ -1,3 +1,5 @@
+import mysql.connector
+
 from database.DB_connect import DB_connect
 from model.studente import Studente
 
@@ -76,3 +78,38 @@ class StudenteDAO:
             cnx.close()
 
         return result
+
+    @staticmethod
+    def iscrivi_studente(matricola: str, codins: str) -> bool:
+        """
+        Iscrive uno studente a un corso.
+        Restituisce True se l'inserimento va a buon fine, False se era già iscritto.
+        """
+        cnx = DB_connect.get_connection()
+
+        if cnx is None:
+            print("Errore di connessione al database.")
+            return False
+
+        cursor = cnx.cursor()
+
+        query = "INSERT INTO iscrizione (matricola, codins) VALUES (%s, %s)"
+
+        try:
+            cursor.execute(query, (matricola, codins))
+            cnx.commit() # FONDAMENTALE: conferma l'inserimento nel database!
+            return True
+
+        except mysql.connector.IntegrityError:
+            # Intercettiamo l'errore di chiave primaria duplicata (studente già iscritto)
+            return False
+
+        except Exception as e:
+            print(f"Errore nell'esecuzione della query: {e}")
+            # Se è un altro tipo di errore, annulliamo eventuali modifiche parziali
+            cnx.rollback()
+            return False
+
+        finally:
+            cursor.close()
+            cnx.close()
