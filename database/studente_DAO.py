@@ -35,7 +35,7 @@ class StudenteDAO:
             cursor.execute(query, (codins,))
 
             # Scorro i risultati e creo gli oggetti Studente con il dictionary unpacking
-            for row in cursor: result.append(Studente(**row))
+            result = [Studente(**row) for row in cursor]
 
         except Exception as e: print(f"Errore nell'esecuzione della query: {e}")
 

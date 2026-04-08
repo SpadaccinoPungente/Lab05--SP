@@ -26,7 +26,7 @@ class CorsoDAO:
 
         try:
             cursor.execute(query)
-            for row in cursor: result.append(Corso(**row))
+            result = [Corso(**row) for row in cursor]
 
         except Exception as e: print(f"Errore nell'esecuzione della query: {e}")
 
@@ -62,7 +62,7 @@ class CorsoDAO:
 
         try:
             cursor.execute(query, (matricola,))
-            for row in cursor: result.append(Corso(**row))
+            result = [Corso(**row) for row in cursor]
 
         except Exception as e: print(f"Errore nell'esecuzione della query: {e}")
 
