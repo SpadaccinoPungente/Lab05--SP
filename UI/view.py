@@ -93,6 +93,9 @@ class View(ft.UserControl):
         # inserisco le righe in _page.controls
         self._page.controls.extend([row1, row2, row3, self.lv_out])
 
+        # popolo il dropdown (avrebbe più senso chiamare il controller nel main)
+        self._controller.startup()
+
         # da non dimenticare mai
         self._page.update()
 
