@@ -16,3 +16,6 @@ class Model:
 
     def getCorsiByMatricola(self, matr_int):
         return DAO.getCorsiByMatricola(matr_int)
+
+    def iscriviStudente(self, matricola, codins):
+        return DAO.iscriviStudente(matricola, codins)

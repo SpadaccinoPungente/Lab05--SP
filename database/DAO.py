@@ -1,6 +1,7 @@
 from database.DB_connect import get_connection
 from model.corso import Corso
 from model.studente import Studente
+import mysql.connector
 
 
 class DAO:
@@ -91,6 +92,27 @@ class DAO:
         cursor.close()
         conn.close()
         return result
+
+    @staticmethod
+    def iscriviStudente(matricola, codins):
+        conn = get_connection()
+        if conn is None: return False
+
+        cursor = conn.cursor()
+        query = """INSERT INTO iscrizione (matricola, codins) VALUES (%s, %s)"""
+
+        try:
+            cursor.execute(query, (matricola, codins))
+            conn.commit()  # Salvare la modifica nel database
+            successo = True
+        except mysql.connector.Error as err:
+            print(f"Errore durante l'iscrizione: {err}")
+            successo = False
+
+        cursor.close()
+        conn.close()
+        return successo
+
 
 
 
