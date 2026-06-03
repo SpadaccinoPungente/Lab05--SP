@@ -3,17 +3,63 @@ import flet as ft
 
 class Controller:
     def __init__(self, view, model):
-        # the view, with the graphical elements of the UI
         self._view = view
-        # the model, which implements the logic of the program and holds the data
         self._model = model
 
-    def handle_hello(self, e):
-        """Simple function to handle a button-pressed event,
-        and consequently print a message on screen"""
-        name = self._view.txt_name.value
-        if name is None or name == "":
-            self._view.create_alert("Inserire il nome")
+    def fillDDCorso(self):
+        self._view._ddCorso.options = [
+            ft.dropdown.Option(key=c.codins, text=c) for c in self._model.getAllCorsi()
+        ]
+
+    def handleCercaIscritti(self, e):
+        if self._view._ddCorso.value is None:
+            self._view.create_alert("Selezionare un corso!")
             return
-        self._view.txt_result.controls.append(ft.Text(f"Hello, {name}!"))
+        iscritti = self._model.getIscrittiByCorso(self._view._ddCorso.value)
+        self._view.txt_result.controls.clear()
+        if len(iscritti) == 0:
+            self._view.txt_result.controls.append(ft.Text("Non ci sono iscritti al corso"))
+        else:
+            self._view.txt_result.controls.append(ft.Text(f"Ci sono {len(iscritti)} iscritti al corso:"))
+            for studente in iscritti: self._view.txt_result.controls.append(ft.Text(f"{studente}"))
         self._view.update_page()
+
+    def handleCercaStudente(self, e):
+        if self._view._txtMatricola.value == "":
+            self._view.create_alert("Inserire una matricola!")
+            return
+        try: matr_int = int(self._view._txtMatricola.value)
+        except ValueError:
+            self._view.create_alert("Inserire una matricola valida!")
+            return
+        studente = self._model.getStudente(matr_int)
+        if studente is None:
+            self._view.create_alert("Matricola non trovata!")
+            return
+        self._view._txtNome.value = f"{studente.nome}"
+        self._view._txtCognome.value = f"{studente.cognome}"
+        self._view.update_page()
+
+    def handleCercaCorsi(self, e):
+        if self._view._txtMatricola.value == "":
+            self._view.create_alert("Inserire una matricola!")
+            return
+        try: matr_int = int(self._view._txtMatricola.value)
+        except ValueError:
+            self._view.create_alert("Inserire una matricola valida!")
+            return
+        studente = self._model.getStudente(matr_int)
+        if studente is None:
+            self._view.create_alert("Matricola non trovata!")
+            return
+        corsi = self._model.getCorsiByMatricola(matr_int)
+        if not corsi:
+            self._view.txt_result.controls.append(ft.Text("Nessun corso trovato."))
+            return
+        self._view.txt_result.controls.clear()
+        self._view.txt_result.controls.append(ft.Text(f"Risultano {len(corsi)} corsi:"))
+        for c in corsi: self._view.txt_result.controls.append(ft.Text(f"{c}"))
+
+    def handleIscrivi(self, e):
+        pass
+
