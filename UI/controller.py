@@ -118,9 +118,9 @@ class Controller:
 
         self._view.txt_result.controls.clear()
         if inserito:
-            self._view.txt_result.controls.extend([
-                ft.Text("Studente iscritto con successo al corso!"),
-                ft.Text(f"Iscrizione completata: {studente.nome} {studente.cognome} è ora iscritto al corso {codins}.")])
+            self._view.txt_result.controls.append(ft.Text("Studente iscritto con successo al corso!"))
+            self._view.txt_result.controls.append(
+                ft.Text(f"Iscrizione completata: {studente.nome} {studente.cognome} è ora iscritto al corso {codins}."))
         else:
             self._view.create_alert("Errore: Lo studente potrebbe essere già iscritto a questo corso.")
 
